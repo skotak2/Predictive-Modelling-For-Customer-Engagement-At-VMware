@@ -32,50 +32,31 @@ The dataset has 700+ variables and 50K+ records of customer interactions. The da
 
 ## DATA PRE PROCESSING
 
-Removed null valued rows and performed SMOTE to balance the dataset for customer converts vs non customer converts. Loaded the datas set for modeling. The code can be accessed [here]().
+Removed null valued rows and performed SMOTE to balance the dataset for customer converts vs non customer converts. Loaded the datas set for modeling. The code can be accessed [here](https://github.com/skotak2/Predictive-Modelling-For-Customer-Engagement-At-VMware/blob/main/Code/Models.R).
 
+## Random Forest Model - Variable importance 
 
+Post exploratory analysis, we decide on important variables as predictors for our model. We use the mean decrease in Gini Index to pick on the important variables and reduce the number of dimensions in the feature set.
 
+![GitHub Logo](https://github.com/skotak2/Predictive-Modelling-For-Customer-Engagement-At-VMware/blob/main/Images/RF_model.png)
 
+Post running this model, we use the mean decrease in gini index to list the important variables. Below is the list of variables which are potential predictors for a model.
 
+![GitHub Logo](https://github.com/skotak2/Predictive-Modelling-For-Customer-Engagement-At-VMware/blob/main/Images/significant_variables.png)
 
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture2.png)
+We built a Lasso regression model using the top 200 variables that came out significant from the Random Forest model. We performed Cross-validation to get the best cost paramater for the LASSO regression.
 
-* Now we use the cloud functions capability to deploy the code the code for the Flask API and access the weights and vocabulary dictionary from the storage. 
+![GitHub Logo](https://github.com/skotak2/Predictive-Modelling-For-Customer-Engagement-At-VMware/blob/main/Images/LASSO_Model.png)
 
-For creating the cloud function, browse for it on the GCP platform and use the options highlighted to below to create a function,
+We also built XGBoost model using the top 200 variables from the Random Forest model. The XGBoost model outperformed the LASSO regression in terms of accuracy and recall by 6% and 4% . However the model lacks interpretability in understanding what veriables influence the marketing and sales of products on the digital portals.
 
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture3.png)
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture4.png)
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture5.png)
-
-*Allocation of 1 GiB memory is recommended. Once set, click on ‘Next’ and deploy the code on the cloud function console. 
-
-To deploy the code, first configure the console with the below highlighted settings and prepare the environment using the requirements file (this is equivalent to pip install {library}) as described below, 
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture6.png)
-
-* Once Requirement is set with the above libraries, prepare the main.py script for deployment. The script has the api_request(x) function defined for returning the desired output given the input – ‘x’, from an external source. The code is uploaded above with name “main.py”. Once the code is arranged click on deploy.
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture7.png)
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture8.png)
-
-* Once deployment is complete, click on the cloud function, using TESTING option to debug for deployment errors. Once the input is passed in the below format, test the function, and look for the desired output.
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture9.png)
-
-![GitHub Logo](https://github.com/skotak2/Seq2Seq-Machine-Translation-Model-Kannada-to-English/blob/main/Images/Picture10.png)
+![GitHub Logo](https://github.com/skotak2/Predictive-Modelling-For-Customer-Engagement-At-VMware/blob/main/Images/Xgboostresult.png)
 
 
 ## RESULTS
-The deployed model can be accessed from the url from any system to translate kannada sentences to english. 
 
-## REFERENCES
-* https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html
-* https://pytorch.org/tutorials/beginner/saving_loading_models.html
+1. Interms of factors influencing the conversion of a vistor to customer, - "product page views, first data of download, top resources and pdf downloads" are top variables with high importance.
 
+2. Vistors who view the product page more than average views for the page, should be priortized and personalization is required.
 
+3. Vistors downloading more PDFs of various products are interested in understanding the details further, hence persuing them will add up for conversion rate.
